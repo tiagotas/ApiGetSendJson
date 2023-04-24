@@ -23,10 +23,18 @@ switch ($url)
     break;
 
     /**
-     * Método GET
+     * Método POST
+     * Exemplo de Acesso: http://10.0.2.2/pessoa/buscar?q=Teste
+     */
+    case '/pessoa/buscar':
+        PessoaController::buscar();
+    break;
+
+    /**
+     * Método POST
      * Exemplo de Acesso: http://10.0.2.2/pessoa/deletar?id=1
      */
-    case '/pessoa/deletar':
+    case '/pessoa/delete':
         PessoaController::deletar();
     break;  
     

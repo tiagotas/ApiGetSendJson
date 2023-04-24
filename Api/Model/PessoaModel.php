@@ -30,16 +30,18 @@ class PessoaModel extends Model
     /**
      * 
      */
-    public function getAllRows()
+    public function getAllRows(string $query = null)
     {
-        $this->rows = (new PessoaDAO())->select();
+        $dao = new PessoaDAO();
+
+        $this->rows = ($query == null) ? $dao->select() : $dao->search($query);
     }
 
     /**
      * 
      */
-    public function delete()
+    public function delete(int $id)
     {
-        (new PessoaDAO())->delete($this->id);
+        (new PessoaDAO())->delete($id);
     }
 }

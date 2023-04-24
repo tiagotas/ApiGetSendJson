@@ -20,14 +20,29 @@ class PessoaDAO extends DAO
     /**
      * 
      */
-    public function select()
+    public function select() : array
     {
         $sql = "SELECT * FROM pessoa ";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll(DAO::FETCH_CLASS);
+        return $stmt->fetchAll(DAO::FETCH_CLASS, "Api\Model\PessoaModel");
+    }
+
+    /**
+     * 
+     */
+    public function search(string $query) : array
+    {
+        $str_query = ['filtro' => '%' . $query . '%'];
+
+        $sql = "SELECT * FROM pessoa WHERE nome LIKE :filtro ";
+
+        $stmt = $this->conexao->prepare($sql);
+        $stmt->execute($str_query);
+
+        return $stmt->fetchAll(DAO::FETCH_CLASS, "Api\Model\PessoaModel");
     }
 
     /**
@@ -47,7 +62,7 @@ class PessoaDAO extends DAO
     /**
      * 
      */
-    public function update(PessoaModel $m)
+    public function update(PessoaModel $m) : bool
     {
         $sql = "UPDATE pessoa SET nome=?, data_nasc=? WHERE id=? ";
 

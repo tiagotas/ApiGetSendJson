@@ -7,8 +7,7 @@ use Exception;
 
 
 /**
- * Responsável por controlar as requisições para obter endereços completos,
- * lista de Ceps ou lista de Bairros.
+ * 
  */
 class PessoaController extends Controller
 {
@@ -54,20 +53,38 @@ class PessoaController extends Controller
     }
 
     /**
+     * 
+     */
+    public static function buscar() : void
+    {
+        try
+        {
+            $model = new PessoaModel();
+            
+            $q = json_decode(file_get_contents('php://input'));
+            
+            //fwrite(fopen("dados.json", "w"), file_get_contents('php://input'));
+            
+            $model->getAllRows($q);
+
+            parent::getResponseAsJSON($model->rows);
+              
+        } catch (Exception $e) {
+
+            parent::getExceptionAsJSON($e);
+        }
+    }
+
+    /**
      * Remove uma pessoa do banco de dados.
      */
     public static function deletar() : void
     {
         try 
         {
-            $model = new PessoaModel();
+            $id = json_decode(file_get_contents('php://input'));
             
-            $model->id = parent::getIntFromUrl(isset($_GET['id']) ? $_GET['id'] : null);
-
-            $model->delete();
-
-            //
-
+            (new PessoaModel())->delete( (int) $id);
 
         } catch (Exception $e) {
 
