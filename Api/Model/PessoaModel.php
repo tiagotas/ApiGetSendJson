@@ -22,9 +22,9 @@ class PessoaModel extends Model
     public function save()
     {
         if($this->id == null)
-            (new PessoaDAO())->insert($this);
+            return (new PessoaDAO())->insert($this);
         else
-            (new PessoaDAO())->update($this);
+            return (new PessoaDAO())->update($this);
     }
 
     /**

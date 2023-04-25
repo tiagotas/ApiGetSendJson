@@ -48,15 +48,18 @@ class PessoaDAO extends DAO
     /**
      * 
      */
-    public function insert(PessoaModel $m) : bool
+    public function insert(PessoaModel $m) : PessoaModel
     {
         $sql = "INSERT INTO pessoa (nome, data_nasc) VALUES (?, ?) ";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $m->nome);
         $stmt->bindValue(2, $m->data_nasc);
+        $stmt->execute();
 
-        return $stmt->execute();
+        $m->id = $this->conexao->lastInsertId();
+
+        return $m;
     }
 
     /**
